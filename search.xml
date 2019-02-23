@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>TensorRT的安装与使用</title>
+      <link href="/2019/02/24/tensorrt-de-an-zhuang-yu-shi-yong/"/>
+      <url>/2019/02/24/tensorrt-de-an-zhuang-yu-shi-yong/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>深度学习应用需要使用预训练的模型进行推理。而使用主流深度学习框架训练出的神经网络模型因保存了巨额的参数而占据了极大的存储空间，例如经典的图像分类模型Alexnet模型就有超过了200M。除此之外，直接使用深度学习框架进行推理，往往会耗费较多的时间，造成很大的时延，这对于某些对时延要求苛刻的深度学习应用（比如自动驾驶、视频监控等）是不可行的。</p></blockquote><h1 id="1、TensorRT介绍"><a href="#1、TensorRT介绍" class="headerlink" title="1、TensorRT介绍"></a>1、TensorRT介绍</h1><p>NVIDIA公司的TensorRT是一款高性能深度学习推理平台。它为深度学习推理应用提供了推理优化器和运行时。在推理过程中，与只在运行在CPU平台上的应用相比，基于TensorRT的应用表现出超过40倍的加速比。使用TensorRT，你可以优化在所有主流框架下训练出的神经网络模型、调整到更低的精确的的同时保持高精度推理并且最终部署到超大规模数据中心、嵌入式或自动驾驶平台。<br><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/TensorRT%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/1.png" alt=""></p><h1 id="2、TensorRT的安装"><a href="#2、TensorRT的安装" class="headerlink" title="2、TensorRT的安装"></a>2、TensorRT的安装</h1><p>官网提供了多种安装方式，我选择了Tar File的安装方式。首先要<a href="https://developer.nvidia.com/nvidia-tensorrt-5x-download" target="_blank" rel="noopener">下载安装包</a>，下载的时候需要nvidia的开发者账号，登陆之后可以下载。根据已经安装的CUDA的版本选择对应的TensorRT的安装包，假设电脑上已经安装CUDA9.0以及cudnn7.3。<br><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/TensorRT%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/2.jpg" alt=""><br>下载完成之后，将下载的文件TensorRT-5.0.2.6.Ubuntu-16.04.4.x86_64-gnu.cuda-9.0.cudnn7.3.tar.gz移动到/home目录下，用tar命令进行解压：</p><pre><code>$ tar xzvf TensorRT-5.0.2.6.Ubuntu-16.04.4.x86_64-gnu.cuda-9.0.cudnn7.3.tar.gz</code></pre><p>解压后，在~/.bashrc中添加环境变量：</p><pre><code>Export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/&lt;your name&gt;/TensorRT-5.0.2.6/lib</code></pre><p>添加之后重新启动Terminal，cd到TensorRT-5.0.2.6/python目录下，安装</p><pre><code>$ pip install tensorrt-5.0.2.6-py2.py3-none-any.whl</code></pre><p>cd到TensorRT-5.0.2.6/uff目录下，安装  </p><pre><code>$ pip install uff-0.5.5-py2.py3-none-any.whl</code></pre><p>cd到TensorRT-5.0.2.6/graphsurgeon目录下，安装  </p><pre><code>pip install graphsurgeon-0.3.2-py2.py3-none-any.whl</code></pre><p>至此，TensorRT就已经安装完成了。下面通过运行一个官方的demo说明TensorRT的使用。</p><h1 id="3、TensorRT的使用"><a href="#3、TensorRT的使用" class="headerlink" title="3、TensorRT的使用"></a>3、TensorRT的使用</h1><p>在官方给出的demo中选择python接口的例子中的uff_ssd，这个例子是对Tensorflow框架训练出的ssd-inception-v2-coco目标检测模型进行优化，然后进行推理。</p><p>cd到TensorRT-5.0.2.6/samples/python/uff_ssd目录，升级cmake至3.8版本以上，并安装依赖：</p><pre><code>pip install -r requirements.txt</code></pre><p>安装完成后编译此项目，依次运行:  </p><pre><code>$ mkdir -p build </code></pre><pre><code>$ cd build</code></pre><pre><code>$ cmake ..</code></pre><pre><code>$ make</code></pre><pre><code>$ cd ..</code></pre><p>（cmake之前需要修改uff-ssd目录下的CMakeLists.txt，将第19和20行分别改为：set-ifndef(TRT-LIB /home/<your-name>/TensorRT-5.0.2.6/lib和set-ifndef(TRT-INCLUDE /home/<your-name>/TensorRT-5.0.2.6/include))）<br>执行detect-objects.py脚本，脚本程序会下载ssd-inception-v2-coco模型，转化为.uff格式，解析模型并且创建inference-engine运行推理。<br>推理结果自动保存到本目录下的image-inferred.jpg，推理时间为23ms。</your-name></your-name></p><p><div align="center"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/TensorRT%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/3.jpg" alt=""></div></p><p><div align="center"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/TensorRT%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/4.jpg" alt=""></div></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 高性能计算 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 深度学习推理 </tag>
+            
+            <tag> nvidia </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>MarkDownPad2的下载与安装</title>
       <link href="/2019/02/05/markdownpad2-de-xia-zai-yu-an-zhuang/"/>
       <url>/2019/02/05/markdownpad2-de-xia-zai-yu-an-zhuang/</url>
@@ -46,7 +73,7 @@
       <link href="/2019/01/29/hello-world/"/>
       <url>/2019/01/29/hello-world/</url>
       
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class=" language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span></code></pre><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class=" language-bash"><code class="language-bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class=" language-bash"><code class="language-bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class=" language-bash"><code class="language-bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
       
       
       

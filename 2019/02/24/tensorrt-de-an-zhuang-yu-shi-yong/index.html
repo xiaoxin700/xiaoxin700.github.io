@@ -5,10 +5,9 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="post title, xiaoxin700的博客">
-    <meta name="description" content="标题一##标题二
-标题三‘’’代码块‘’’
-">
+    <meta name="keywords" content="TensorRT的安装与使用, xiaoxin700的博客">
+    <meta name="description" content="
+深度学习应用需要使用预训练的模型进行推理。而使用主流深度学习框架训练出的神经网络模型因保存了巨额的参数而占据了极大的存储空间，例如经典的图像分类模型Alexnet模型就有超过了200M。除此之外，直接使用深度学习框架进行推理，往往会耗费较">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +15,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>post title | xiaoxin700的博客</title>
+    <title>TensorRT的安装与使用 | xiaoxin700的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -276,13 +275,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        post title
+                        TensorRT的安装与使用
                     </div>
                 </div>
             </div>
@@ -302,12 +301,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/深度学习推理/" target="_blank">
+                                <span class="chip bg-color">深度学习推理</span>
+                            </a>
+                        
+                            <a href="/tags/nvidia/" target="_blank">
+                                <span class="chip bg-color">nvidia</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/高性能计算/" class="post-category" target="_blank">
+                                高性能计算
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -315,21 +331,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-01-29
+                    2019-02-24
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        12
+                        801
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        3 分
                     </div>
                     
                 
@@ -345,8 +361,33 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="标题一"><a href="#标题一" class="headerlink" title="标题一"></a>标题一</h1><p>##标题二</p>
-<h3 id="标题三"><a href="#标题三" class="headerlink" title="标题三"></a>标题三</h3><p>‘’’<br>代码块<br>‘’’</p>
+                <blockquote>
+<p>深度学习应用需要使用预训练的模型进行推理。而使用主流深度学习框架训练出的神经网络模型因保存了巨额的参数而占据了极大的存储空间，例如经典的图像分类模型Alexnet模型就有超过了200M。除此之外，直接使用深度学习框架进行推理，往往会耗费较多的时间，造成很大的时延，这对于某些对时延要求苛刻的深度学习应用（比如自动驾驶、视频监控等）是不可行的。</p>
+</blockquote>
+<h1 id="1、TensorRT介绍"><a href="#1、TensorRT介绍" class="headerlink" title="1、TensorRT介绍"></a>1、TensorRT介绍</h1><p>NVIDIA公司的TensorRT是一款高性能深度学习推理平台。它为深度学习推理应用提供了推理优化器和运行时。在推理过程中，与只在运行在CPU平台上的应用相比，基于TensorRT的应用表现出超过40倍的加速比。使用TensorRT，你可以优化在所有主流框架下训练出的神经网络模型、调整到更低的精确的的同时保持高精度推理并且最终部署到超大规模数据中心、嵌入式或自动驾驶平台。<br><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/TensorRT%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/1.png" alt=""></p>
+<h1 id="2、TensorRT的安装"><a href="#2、TensorRT的安装" class="headerlink" title="2、TensorRT的安装"></a>2、TensorRT的安装</h1><p>官网提供了多种安装方式，我选择了Tar File的安装方式。首先要<a href="https://developer.nvidia.com/nvidia-tensorrt-5x-download" target="_blank" rel="noopener">下载安装包</a>，下载的时候需要nvidia的开发者账号，登陆之后可以下载。根据已经安装的CUDA的版本选择对应的TensorRT的安装包，假设电脑上已经安装CUDA9.0以及cudnn7.3。<br><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/TensorRT%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/2.jpg" alt=""><br>下载完成之后，将下载的文件TensorRT-5.0.2.6.Ubuntu-16.04.4.x86_64-gnu.cuda-9.0.cudnn7.3.tar.gz移动到/home目录下，用tar命令进行解压：</p>
+<pre><code>$ tar xzvf TensorRT-5.0.2.6.Ubuntu-16.04.4.x86_64-gnu.cuda-9.0.cudnn7.3.tar.gz
+</code></pre><p>解压后，在~/.bashrc中添加环境变量：</p>
+<pre><code>Export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/&lt;your name&gt;/TensorRT-5.0.2.6/lib
+</code></pre><p>添加之后重新启动Terminal，cd到TensorRT-5.0.2.6/python目录下，安装</p>
+<pre><code>$ pip install tensorrt-5.0.2.6-py2.py3-none-any.whl
+</code></pre><p>cd到TensorRT-5.0.2.6/uff目录下，安装  </p>
+<pre><code>$ pip install uff-0.5.5-py2.py3-none-any.whl
+</code></pre><p>cd到TensorRT-5.0.2.6/graphsurgeon目录下，安装  </p>
+<pre><code>pip install graphsurgeon-0.3.2-py2.py3-none-any.whl
+</code></pre><p>至此，TensorRT就已经安装完成了。下面通过运行一个官方的demo说明TensorRT的使用。</p>
+<h1 id="3、TensorRT的使用"><a href="#3、TensorRT的使用" class="headerlink" title="3、TensorRT的使用"></a>3、TensorRT的使用</h1><p>在官方给出的demo中选择python接口的例子中的uff_ssd，这个例子是对Tensorflow框架训练出的ssd-inception-v2-coco目标检测模型进行优化，然后进行推理。</p>
+<p>cd到TensorRT-5.0.2.6/samples/python/uff_ssd目录，升级cmake至3.8版本以上，并安装依赖：</p>
+<pre><code>pip install -r requirements.txt
+</code></pre><p>安装完成后编译此项目，依次运行:  </p>
+<pre><code>$ mkdir -p build 
+</code></pre><pre><code>$ cd build
+</code></pre><pre><code>$ cmake ..
+</code></pre><pre><code>$ make
+</code></pre><pre><code>$ cd ..
+</code></pre><p>（cmake之前需要修改uff-ssd目录下的CMakeLists.txt，将第19和20行分别改为：set-ifndef(TRT-LIB /home/<your-name>/TensorRT-5.0.2.6/lib和set-ifndef(TRT-INCLUDE /home/<your-name>/TensorRT-5.0.2.6/include))）<br>执行detect-objects.py脚本，脚本程序会下载ssd-inception-v2-coco模型，转化为.uff格式，解析模型并且创建inference-engine运行推理。<br>推理结果自动保存到本目录下的image-inferred.jpg，推理时间为23ms。</your-name></your-name></p>
+<p><div align="center"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/TensorRT%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/3.jpg" alt=""></div></p>
+<p><div align="center"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/TensorRT%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/4.jpg" alt=""></div></p>
 
             </div>
             <hr>
@@ -487,7 +528,7 @@
                     </span>
                     <a href="http://xiaoxin700.github.io" class="b-link-green">xiaoxin700的博客</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/01/29/post-title/" class="b-link-green">post title</a>
+                    <a href="/2019/02/24/tensorrt-de-an-zhuang-yu-shi-yong/" class="b-link-green">TensorRT的安装与使用</a>
                 </p>
             </div>
         </div>
@@ -510,7 +551,59 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2019/02/24/tensorrt-de-an-zhuang-yu-shi-yong/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="TensorRT的安装与使用">
+                        
+                        <span class="card-title">TensorRT的安装与使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">
+深度学习应用需要使用预训练的模型进行推理。而使用主流深度学习框架训练出的神经网络模型因保存了巨额的参数而占据了极大的存储空间，例如经典的图像分类模型Alexnet模型就有超过了200M。除此之外，直接使用深度学习框架进行推理，往往会耗费较</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/高性能计算/" class="post-category" target="_blank">
+                                    高性能计算
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/深度学习推理/" target="_blank">
+                        <span class="chip bg-color">深度学习推理</span>
+                    </a>
+                    
+                    <a href="/tags/nvidia/" target="_blank">
+                        <span class="chip bg-color">nvidia</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2019/02/05/markdownpad2-de-xia-zai-yu-an-zhuang/">
                     <div class="card-image">
@@ -525,9 +618,9 @@
                     <div class="summary">Markdown是一种纯文本格式的标记语言。通过使用它简单的标记语法，就可以使普通的文本内容具有一定的格式。MarkdownPad是Windows系统下一款全功能的Markdown编辑器。
 1、下载点击这里进入MarkdownPad的主页面</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-05
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-05
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -547,39 +640,6 @@
                         <span class="chip bg-color">markdown</span>
                     </a>
                     
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/01/29/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex</div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-29
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-user fa-fw"></i>
-                            xx700
-                            
-                        </span>
-                    </div>
                 </div>
                 
             </div>
