@@ -5,10 +5,11 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="post title, xiaoxin700的博客">
-    <meta name="description" content="标题一##标题二
-标题三‘’’代码块‘’’
-">
+    <meta name="keywords" content="Java数组和集合的遍历方法, xiaoxin700的博客">
+    <meta name="description" content="
+Java遍历数组可以使用普通的for循环，也可以使用增强的for循环；而Java遍历集合元素的方法有：增强for循环，使用集合的iterator等。
+
+1.数组的遍历1.1 普通for循环   这种遍历方法是设置一个循环变量，将循环变量作">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>post title | xiaoxin700的博客</title>
+    <title>Java数组和集合的遍历方法 | xiaoxin700的博客</title>
     <link rel="icon" type="image/jpeg" href="/dog.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -216,13 +217,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        post title
+                        Java数组和集合的遍历方法
                     </div>
                 </div>
             </div>
@@ -333,12 +334,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Java集合/" target="_blank">
+                                <span class="chip bg-color">Java集合</span>
+                            </a>
+                        
+                            <a href="/tags/JDK源码/" target="_blank">
+                                <span class="chip bg-color">JDK源码</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Java基础/" class="post-category" target="_blank">
+                                Java基础
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -346,21 +364,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-01-29
+                    2019-05-23
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        12
+                        971
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        3 分
                     </div>
                     
                 
@@ -376,8 +394,75 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="标题一"><a href="#标题一" class="headerlink" title="标题一"></a>标题一</h1><p>##标题二</p>
-<h3 id="标题三"><a href="#标题三" class="headerlink" title="标题三"></a>标题三</h3><p>‘’’<br>代码块<br>‘’’</p>
+                <blockquote>
+<p>Java遍历数组可以使用<strong>普通的for循环</strong>，也可以使用<strong>增强的for循环</strong>；而Java遍历集合元素的方法有：增强for循环，使用集合的iterator等。</p>
+</blockquote>
+<h1 id="1-数组的遍历"><a href="#1-数组的遍历" class="headerlink" title="1.数组的遍历"></a>1.数组的遍历</h1><h3 id="1-1-普通for循环"><a href="#1-1-普通for循环" class="headerlink" title="1.1 普通for循环"></a>1.1 普通for循环</h3><p>   这种遍历方法是设置一个循环变量，将循环变量作为数组的索引依次访问数组中的每个元素。</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<h3 id="1-2-增强的for循环"><a href="#1-2-增强的for循环" class="headerlink" title="1.2 增强的for循环"></a>1.2 增强的for循环</h3><p>从jdk1.5中引入的增强for循环可以不用设置循环变量，简化了代码的编写。</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> e <span class="token operator">:</span> arr<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<h1 id="2-集合的遍历"><a href="#2-集合的遍历" class="headerlink" title="2.集合的遍历"></a>2.集合的遍历</h1><h3 id="2-1-使用增强的for循环"><a href="#2-1-使用增强的for循环" class="headerlink" title="2.1 使用增强的for循环"></a>2.1 使用增强的for循环</h3><p>这个应该是比较常用的方法。使用方法为：</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">for</span><span class="token punctuation">(</span>Type value <span class="token operator">:</span> Iterable<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        expression value<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<p>注意Iterable，这是集合可以使用增强for循环遍历元素的前提，也就是说集合必须实现Iterable接口之后才可以使用增强的for循环。</p>
+<h3 id="2-2-使用Iterator"><a href="#2-2-使用Iterator" class="headerlink" title="2.2 使用Iterator"></a>2.2 使用Iterator</h3><p>先看Java集合的父接口-Collection接口的定义：<br>&ensp;<code>public interface Collection&lt;E&gt; extends Iterable&lt;E&gt;</code><br>可以看到Collection接口继承了Iterable接口，那Iterable接口是什么呢？它的定义如下<br>&ensp;<code>public interface Iterable&lt;T&gt;</code><br>在Iterable接口中有一个抽象方法：<br>&ensp;<code>Iterator&lt;T&gt; iterator();</code><br>iterator()方法返回一个Iterarot，那Iterator是什么？它的定义如下:<br>&ensp;<code>public interface Iterator&lt;E&gt;</code><br>Iterator接口中的抽象方法有两个:</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">boolean</span> <span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    E <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>根据方法的名字，可以大致了解它的功能：<br>hasNext()方法为boolean类型，它在遍历集合的时候会返回是否还有未遍历的元素；<br>next()方法返回一个E类型的元素，它会返回一个集合中还未遍历的元素。<br>Collection接口没有实现从Iterable接口继承过来的iterator()抽象方法，iterator的实现均放在了具体的某个集合类的定义中。下面以ArrayList为例，看一下Iterator的实现：</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">public</span> Iterator<span class="token operator">&lt;</span>E<span class="token operator">></span> <span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Itr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token class-name">Itr</span> <span class="token keyword">implements</span> <span class="token class-name">Iterator</span><span class="token operator">&lt;</span>E<span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> cursor<span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">// index of next element to return</span>
+        <span class="token keyword">int</span> lastRet <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// index of last element returned; -1 if no such</span>
+        <span class="token keyword">int</span> expectedModCount <span class="token operator">=</span> modCount<span class="token punctuation">;</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> cursor <span class="token operator">!=</span> size<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token annotation punctuation">@SuppressWarnings</span><span class="token punctuation">(</span><span class="token string">"unchecked"</span><span class="token punctuation">)</span>
+        <span class="token keyword">public</span> E <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">checkForComodification</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> i <span class="token operator">=</span> cursor<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">>=</span> size<span class="token punctuation">)</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NoSuchElementException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Object<span class="token punctuation">[</span><span class="token punctuation">]</span> elementData <span class="token operator">=</span> ArrayList<span class="token punctuation">.</span><span class="token keyword">this</span><span class="token punctuation">.</span>elementData<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">>=</span> elementData<span class="token punctuation">.</span>length<span class="token punctuation">)</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ConcurrentModificationException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cursor <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span>E<span class="token punctuation">)</span> elementData<span class="token punctuation">[</span>lastRet <span class="token operator">=</span> i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<p>可以看到是ArrayList是定义了一个内部类Itr实现了Iterator接口，而iterator方法返回了该类的一个实例，其中的elementData就是ArrayList对象保存数据用的Object类型的数组，size是该数组的大小。<br>所以要遍历ArrayList对象中的元素，可以先获得该对象的迭代器，然后使用hasNext()和next()两个方法实现对它的遍历：</p>
+<pre class=" language-java"><code class="language-java">    List<span class="token operator">&lt;</span>String<span class="token operator">></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"spring"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"springMVC"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"MyBatis"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Iterator<span class="token operator">&lt;</span>String<span class="token operator">></span> i <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span><span class="token punctuation">(</span>i<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>i<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<h3 id="2-3-两种遍历集合方法的比较"><a href="#2-3-两种遍历集合方法的比较" class="headerlink" title="2.3 两种遍历集合方法的比较"></a>2.3 两种遍历集合方法的比较</h3><p>其实增强的for循环的内部实现就是使用的集合对象的iterator，这种循环的优点是代码更简洁，缺点是：<br>1.只能顺次遍历所有元素，无法实现较为复杂的循环，如在某些条件下需要后退到之前遍历过的元素；<br>2.循环变量i不可见，无法得知当前遍历到数组的第几个元素。</p>
+<h1 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h1><p>虽然增强的for循环会被编译器转化为iterator操作，但是使用增强的for循环时，iterator是不可见的，所以如果需要调用iterator的remove()方法或是其他一些操作，就有些力不从心了。所以，Java 5.0提供的增强的for循环能让我们的代码更简洁，可以让我们更加方便的使用iterator，但是它也是有局限性的，所以要根据实际情况有选择的使用。</p>
 
             </div>
             <hr>
@@ -518,7 +603,7 @@
                     </span>
                     <a href="http://xiaoxin700.github.io" class="b-link-green">xiaoxin700的博客</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/01/29/post-title/" class="b-link-green">post title</a>
+                    <a href="/2019/05/23/java-shu-zu-he-ji-he-de-bian-li-fang-fa/" class="b-link-green">Java数组和集合的遍历方法</a>
                 </p>
             </div>
         </div>
@@ -802,28 +887,28 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/02/05/markdownpad2-de-xia-zai-yu-an-zhuang/">
+                <a href="/2019/05/24/java-rong-qi-arraylist/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="MarkDownPad2的下载与安装">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Java容器__ArrayList">
                         
-                        <span class="card-title">MarkDownPad2的下载与安装</span>
+                        <span class="card-title">Java容器__ArrayList</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">Markdown是一种纯文本格式的标记语言。通过使用它简单的标记语法，就可以使普通的文本内容具有一定的格式。MarkdownPad是Windows系统下一款全功能的Markdown编辑器。
-1、下载点击这里进入MarkdownPad的主页面</div>
+                    <div class="summary">1.定义ArrayList类的定义如下：&ensp;public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;
+        implements List&lt;E&gt;</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-05
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-24
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/搭建个人博客/" class="post-category" target="_blank">
-                                    搭建个人博客
+                            <a href="/categories/Java集合/" class="post-category" target="_blank">
+                                    Java集合
                                 </a>
                             
                             
@@ -833,8 +918,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/markdown/" target="_blank">
-                        <span class="chip bg-color">markdown</span>
+                    <a href="/tags/JDK源码/" target="_blank">
+                        <span class="chip bg-color">JDK源码</span>
+                    </a>
+                    
+                    <a href="/tags/Java基础/" target="_blank">
+                        <span class="chip bg-color">Java基础</span>
                     </a>
                     
                 </div>
@@ -848,28 +937,41 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/01/29/hello-world/">
+                <a href="/2019/05/14/java-lei-jia-zai-ji-zhi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Java类加载机制">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Java类加载机制</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex</div>
+                    <div class="summary">
+我们编写的Java代码（.java文件）经过编译之后，生成.class文件，.class文件中描述了这个类的各种信息。而这些信息最终都需要加载到虚拟机中之后才能运行和使用。虚拟机把描述类的数据从.class文件加载到内存，并对数据进行校验</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-29
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-14
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            xx700
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/JVM/" class="post-category" target="_blank">
+                                    JVM
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java类加载/" target="_blank">
+                        <span class="chip bg-color">Java类加载</span>
+                    </a>
+                    
                 </div>
                 
             </div>
