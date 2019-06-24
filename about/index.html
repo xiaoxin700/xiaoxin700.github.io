@@ -254,7 +254,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                     <div class="post-statis col l4 hide-on-med-and-down" data-aos="zoom-in-right">
                         
 <div class="statis">
-    <span class="count"><a href="/" target="_blank">7</a></span>
+    <span class="count"><a href="/" target="_blank">12</a></span>
     <span class="name">文章</span>
 </div>
 
@@ -282,7 +282,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                                 <div class="post-statis hide-on-large-only" data-aos="zoom-in-right">
                                     
 <div class="statis">
-    <span class="count"><a href="/" target="_blank">7</a></span>
+    <span class="count"><a href="/" target="_blank">12</a></span>
     <span class="name">文章</span>
 </div>
 
@@ -395,7 +395,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
         },
         xAxis: {
             type: 'category',
-            data: ["2018-05","2018-06","2018-07","2018-08","2018-09","2018-10","2018-11","2018-12","2019-01","2019-02","2019-03","2019-04","2019-05"]
+            data: ["2018-06","2018-07","2018-08","2018-09","2018-10","2018-11","2018-12","2019-01","2019-02","2019-03","2019-04","2019-05","2019-06"]
         },
         yAxis: {
             type: 'value',
@@ -405,7 +405,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [0,0,0,0,0,0,0,0,2,2,0,0,3],
+                data: [0,0,0,0,0,0,0,1,2,0,0,5,4],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -447,7 +447,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"Java基础","value":1},{"name":"搭建个人博客","value":1},{"name":"高性能计算","value":1},{"name":"JVM","value":1},{"name":"Java集合","value":1}],
+                data: [{"name":"Java基础","value":2},{"name":"JVM","value":3},{"name":"搭建个人博客","value":1},{"name":"Java集合","value":3},{"name":"高性能计算","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -471,7 +471,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
         xAxis: [
             {
                 type: 'category',
-                data: ["JDK源码","Java集合","markdown","深度学习推理","nvidia","Java类加载","Java基础","-Java基础 -jdk源码","jdk源码"]
+                data: ["Java基础","JDK源码","I/O","Java集合","markdown","Java类加载","深度学习推理","nvidia","Java垃圾收集"]
             }
         ],
         yAxis: [
@@ -484,7 +484,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 type: 'bar',
                 color: ['#82d3f4'],
                 barWidth : 18,
-                data: [2,1,1,1,1,1,1,0,0],
+                data: [6,5,1,1,1,1,1,1,1],
                 markPoint: {
                     symbolSize: 45,
                     data: [{
@@ -595,8 +595,14 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
         <div class="tag-chips center-align">
             
             
-            <a href="/tags/Java集合/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Java集合</span>
+            <a href="/tags/Java基础/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Java基础</span>
+            </a>
+            
+            
+            
+            <a href="/tags/I-O/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">I/O</span>
             </a>
             
             
@@ -607,8 +613,20 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
+            <a href="/tags/Java集合/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Java集合</span>
+            </a>
+            
+            
+            
             <a href="/tags/markdown/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">markdown</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Java类加载/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Java类加载</span>
             </a>
             
             
@@ -625,26 +643,8 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/Java类加载/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Java类加载</span>
-            </a>
-            
-            
-            
-            <a href="/tags/Java基础-jdk源码/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">-Java基础 -jdk源码</span>
-            </a>
-            
-            
-            
-            <a href="/tags/Java基础/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Java基础</span>
-            </a>
-            
-            
-            
-            <a href="/tags/jdk源码/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">jdk源码</span>
+            <a href="/tags/Java垃圾收集/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Java垃圾收集</span>
             </a>
             
             
@@ -711,7 +711,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">4.7k</span>
+                <span class="white-color">13.1k</span>
             
 
             

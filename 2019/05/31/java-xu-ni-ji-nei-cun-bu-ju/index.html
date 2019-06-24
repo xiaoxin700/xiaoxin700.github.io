@@ -5,10 +5,9 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="post title, xiaoxin700的博客">
-    <meta name="description" content="标题一##标题二
-标题三‘’’代码块‘’’
-">
+    <meta name="keywords" content="Java虚拟机内存布局, xiaoxin700的博客">
+    <meta name="description" content="
+Java虚拟机启动之后会以一个进程方式运行，Java虚拟机执行过程中会把它所管理的内存划分为了若干个不同的数据区域。这些区域都有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +15,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>post title | xiaoxin700的博客</title>
+    <title>Java虚拟机内存布局 | xiaoxin700的博客</title>
     <link rel="icon" type="image/jpeg" href="/dog.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -216,13 +215,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        post title
+                        Java虚拟机内存布局
                     </div>
                 </div>
             </div>
@@ -333,12 +332,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Java基础/" target="_blank">
+                                <span class="chip bg-color">Java基础</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/JVM/" class="post-category" target="_blank">
+                                JVM
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -346,21 +358,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-01-29
+                    2019-05-31
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        12
+                        1.6k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        5 分
                     </div>
                     
                 
@@ -376,8 +388,30 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="标题一"><a href="#标题一" class="headerlink" title="标题一"></a>标题一</h1><p>##标题二</p>
-<h3 id="标题三"><a href="#标题三" class="headerlink" title="标题三"></a>标题三</h3><p>‘’’<br>代码块<br>‘’’</p>
+                <blockquote>
+<p>Java虚拟机启动之后会以一个进程方式运行，Java虚拟机执行过程中会把它所管理的内存划分为了若干个不同的数据区域。这些区域都有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。不同版本的虚拟机规范以及不同版本的虚拟机都会有不同的规定及实现，这里以JDK1.6、1.7版本中的规定为准。(本文中的示意图均来自网络，感谢图片作者辛勤的劳动，这里我就不重复造轮子啦~)。</p>
+</blockquote>
+<h1 id="1-Java运行时数据区划分"><a href="#1-Java运行时数据区划分" class="headerlink" title="1.Java运行时数据区划分"></a>1.Java运行时数据区划分</h1><p>Java虚拟机所管理的内存将会包括以下几个运行时数据区域：<br><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/1.png" width="50%" height="50%" div="" align="center/"><br>其中程序计数器、Java虚拟机栈和本地方法栈是线程私有的，堆、方法区是进程中的各线程共享的。</p>
+<h1 id="2-程序计数器"><a href="#2-程序计数器" class="headerlink" title="2.程序计数器"></a>2.程序计数器</h1><p>程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。每个线程都有一个独立的程序计数器，因为各线程在切换时能执行正确的指令。另外，如果线程正在执行的是Native方法，计数器的值为空。</p>
+<h1 id="3-Java虚拟机栈"><a href="#3-Java虚拟机栈" class="headerlink" title="3.Java虚拟机栈"></a>3.Java虚拟机栈</h1><ol>
+<li>Java虚拟机栈是线程私有的，它的生命周期与线程相同，每个方法在执行的时候都会创建一个栈帧，里面用于存放局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用到执行完成的过程，都对应着一个栈帧在Java虚拟机栈中的入栈和出栈的过程。</li>
+<li>局部变量表存放了编译期可知的各种基本数据类型(boolean,byte,int,float等)、对象引用。局部变量表所需的内存空间在编译期间就可以知道，当进入一个方法时，这个方法需要在栈帧中分配多大的局部变量空间是完全确定的。</li>
+<li>Java虚拟机规范中，对该区域规定了两种异常情况：</li>
+</ol>
+<ul>
+<li>线程请求的栈深度大于虚拟机所允许的深度，比如递归的层数过多，将抛出<code>StackOverflowError</code>异常。</li>
+<li>栈进行动态扩展时无法申请到足够的内存，会抛出<code>OutOfMemoryError</code>异常。</li>
+</ul>
+<h1 id="4-本地方法栈"><a href="#4-本地方法栈" class="headerlink" title="4.本地方法栈"></a>4.本地方法栈</h1><p>本地方法栈与虚拟机栈所发挥的作用是很相似的，它们的区别就是本地方法栈是为虚拟机使用到的Native方法服务。本地方法栈同样会抛出Java虚拟机栈中的两种异常。</p>
+<h1 id="5-Java堆"><a href="#5-Java堆" class="headerlink" title="5.Java堆"></a>5.Java堆</h1><p>对于大多数应用来说，Java堆是Java虚拟机所管理的内存中最大的一块。Java堆被所有的线程共享。此内存区域的唯一目的就是存放对象实例。<br>该区域是垃圾收集器管理的主要区域，所以也被称为”GC堆”。<br>因为现代的垃圾收集器基本都是采用的分代收集算法，其主要的思想是针对不同类型的对象采用不同的垃圾回收算法，所以Java堆还可以细分为：</p>
+<ul>
+<li>新生代(Young Generation)</li>
+<li>老年代(Old Generation)</li>
+</ul>
+<p>Java堆可以处于物理上不连续的内存空间中，只要逻辑上能连续即可。堆可以是固定大小的，也可以是可扩展的：通过虚拟机参数<code>-Xms</code>(设置堆的初始值)和<code>-Xmx</code>(设置堆的最大值)控制。<br>当堆中没有内存完成实例分配并且堆也无法再扩展时，将会抛出<code>OutOfMemoryError</code>异常。</p>
+<h1 id="6-方法区"><a href="#6-方法区" class="headerlink" title="6.方法区"></a>6.方法区</h1><p>方法区是各线程共享的内存区域，用于存储已经被虚拟机加载的类信息、常量、静态变量、即使编译器编译后的代码等数据。<br>Java虚拟机规范把方法区描述为堆的一个逻辑部分。和堆一样不需要连续的内存，并且可以动态扩展，动态扩展失败一样会抛出<code>OutOfMemoryError</code>异常。<br>垃圾收集行为在这个区域是比较少出现的，该区域的内存回收目标主要是针对常量池的回收和对类的卸载。<br>HotSpot虚拟机把它当成永久代来进行垃圾回收。但是很难确定永久代的大小，因为它受到很多因素影响，并且每次Full GC之后永久代的大小都会改变，所以经常会抛出<code>OutOfMemoryError</code>异常。为了更容易管理方法区，从JDK1.8开始,移除永久代,并把方法区移至元空间,它位于本地内存中,而不是虚拟机内存中。<br>方法区是一个JVM规范，永久代和元空间都是它的一种实现方式。在JDK1.8之后,原来永久代的数据被分到了堆和元空间中。元空间存储类的原信息，静态变量和常量池等放入堆中。</p>
+<h1 id="7-运行时常量池"><a href="#7-运行时常量池" class="headerlink" title="7.运行时常量池"></a>7.运行时常量池</h1><p>该区域是方法区的一部分。Class文件中的常量池(用于存放编译期生成的各种字面量和符号引用)中的内容会在类加载后放入方法区的运行时常量池。还有就是运行期间也可以将新的常量放入常量池中，例如String.intern()。<br>当常量池无法申请到内存时会抛出<code>OutOfMemoryError</code>异常。</p>
+<h1 id="8-直接内存"><a href="#8-直接内存" class="headerlink" title="8.直接内存"></a>8.直接内存</h1><p>直接内存不是虚拟机的运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域。但是这部分区域也会被经常使用，并且也可能导致<code>OutOfMemoryError</code>异常。<br>JDK1.4新加入了NIO,引入了基于通道Channel)和缓冲区(Buffer)的I/O方式，它可以使用native函数库直接分配堆外内存，然后通过一个存储在Java堆中的DirectByteBuffer对象作为这块内存的引用进行操作。因为避免了在Java堆和Native堆中来回复制数据，所以能在一些应用场景中显著提高性能。<br>本地内存不受Java堆大小的限制，但是也会受到本机内存大小以及处理器寻址空间的限制。</p>
 
             </div>
             <hr>
@@ -518,7 +552,7 @@
                     </span>
                     <a href="http://xiaoxin700.github.io" class="b-link-green">xiaoxin700的博客</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/01/29/post-title/" class="b-link-green">post title</a>
+                    <a href="/2019/05/31/java-xu-ni-ji-nei-cun-bu-ju/" class="b-link-green">Java虚拟机内存布局</a>
                 </p>
             </div>
         </div>
@@ -802,28 +836,28 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/02/05/markdownpad2-de-xia-zai-yu-an-zhuang/">
+                <a href="/2019/06/03/java-xu-ni-ji-la-ji-shou-ji/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="MarkDownPad2的下载与安装">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Java虚拟机_垃圾收集">
                         
-                        <span class="card-title">MarkDownPad2的下载与安装</span>
+                        <span class="card-title">Java虚拟机_垃圾收集</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">Markdown是一种纯文本格式的标记语言。通过使用它简单的标记语法，就可以使普通的文本内容具有一定的格式。MarkdownPad是Windows系统下一款全功能的Markdown编辑器。
-1、下载点击这里进入MarkdownPad的主页面</div>
+                    <div class="summary">
+Java平台最重要的特点之一就是提供了自动垃圾回收的功能，相比于c/c++手动释放没有用的内存，自动垃圾回收可以使Java代码更加简洁并且可以使编程者更加注重于代码的业务功能。到目前为止，内存的动态分配与自动垃圾回收技术已经相当成熟，但是</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-05
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-03
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/搭建个人博客/" class="post-category" target="_blank">
-                                    搭建个人博客
+                            <a href="/categories/JVM/" class="post-category" target="_blank">
+                                    JVM
                                 </a>
                             
                             
@@ -833,8 +867,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/markdown/" target="_blank">
-                        <span class="chip bg-color">markdown</span>
+                    <a href="/tags/Java垃圾收集/" target="_blank">
+                        <span class="chip bg-color">Java垃圾收集</span>
                     </a>
                     
                 </div>
@@ -848,28 +882,46 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/01/29/hello-world/">
+                <a href="/2019/05/30/java-rong-qi-hashmap/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Java容器-HashMap(JDK1.7)">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Java容器-HashMap(JDK1.7)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex</div>
+                    <div class="summary">1.声明HashMap类的声明如下：&ensp;public class HashMap&lt;K,V&gt;
+    extends AbstractMap&lt;K,V&gt;
+    implements Map&lt;K,V&gt;</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-29
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-30
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            xx700
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java集合/" class="post-category" target="_blank">
+                                    Java集合
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java基础/" target="_blank">
+                        <span class="chip bg-color">Java基础</span>
+                    </a>
+                    
+                    <a href="/tags/JDK源码/" target="_blank">
+                        <span class="chip bg-color">JDK源码</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -939,7 +991,7 @@
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">4.7k</span>
+                <span class="white-color">13.1k</span>
             
 
             
