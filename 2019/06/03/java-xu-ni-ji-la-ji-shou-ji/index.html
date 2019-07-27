@@ -94,18 +94,22 @@
 
 
 
-  <meta name="description" content="Java平台最重要的特点之一就是提供了自动垃圾回收的功能，相比于c/c++手动释放没有用的内存，自动垃圾回收可以使Java代码更加简洁并且可以使编程者更加注重于代码的业务功能。到目前为止，内存的动态分配与自动垃圾回收技术已经相当成熟，但是当需要排查各种内存溢出、内存泄露问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，就需要对这些“自动化”的技术实施必要的监控和调节。  1.垃圾回收的主要对象程">
+  <meta name="description" content="Java平台最重要的特点之一就是提供了自动垃圾回收的功能，相比于c/c++手动释放没有用的内存，自动垃圾回收可以使Java代码更加简洁并且可以使编程者更加集中精力于代码的业务功能。到目前为止，内存的动态分配与自动垃圾回收技术已经相当成熟，但是当需要排查各种内存溢出、内存泄露问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，就需要对这些“自动化”的技术实施必要的监控和调节。  垃圾回收的主要对象程">
 <meta name="keywords" content="Java垃圾收集">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java虚拟机_垃圾收集">
 <meta property="og:url" content="http://xiaoxin700.github.io/2019/06/03/java-xu-ni-ji-la-ji-shou-ji/index.html">
 <meta property="og:site_name" content="xx700">
-<meta property="og:description" content="Java平台最重要的特点之一就是提供了自动垃圾回收的功能，相比于c/c++手动释放没有用的内存，自动垃圾回收可以使Java代码更加简洁并且可以使编程者更加注重于代码的业务功能。到目前为止，内存的动态分配与自动垃圾回收技术已经相当成熟，但是当需要排查各种内存溢出、内存泄露问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，就需要对这些“自动化”的技术实施必要的监控和调节。  1.垃圾回收的主要对象程">
+<meta property="og:description" content="Java平台最重要的特点之一就是提供了自动垃圾回收的功能，相比于c/c++手动释放没有用的内存，自动垃圾回收可以使Java代码更加简洁并且可以使编程者更加集中精力于代码的业务功能。到目前为止，内存的动态分配与自动垃圾回收技术已经相当成熟，但是当需要排查各种内存溢出、内存泄露问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，就需要对这些“自动化”的技术实施必要的监控和调节。  垃圾回收的主要对象程">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-03T02:30:05.755Z">
+<meta property="og:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/java%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/1.png">
+<meta property="og:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/java%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/2.png">
+<meta property="og:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/java%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/3.png">
+<meta property="og:updated_time" content="2019-07-14T14:37:24.294Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java虚拟机_垃圾收集">
-<meta name="twitter:description" content="Java平台最重要的特点之一就是提供了自动垃圾回收的功能，相比于c/c++手动释放没有用的内存，自动垃圾回收可以使Java代码更加简洁并且可以使编程者更加注重于代码的业务功能。到目前为止，内存的动态分配与自动垃圾回收技术已经相当成熟，但是当需要排查各种内存溢出、内存泄露问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，就需要对这些“自动化”的技术实施必要的监控和调节。  1.垃圾回收的主要对象程">
+<meta name="twitter:description" content="Java平台最重要的特点之一就是提供了自动垃圾回收的功能，相比于c/c++手动释放没有用的内存，自动垃圾回收可以使Java代码更加简洁并且可以使编程者更加集中精力于代码的业务功能。到目前为止，内存的动态分配与自动垃圾回收技术已经相当成熟，但是当需要排查各种内存溢出、内存泄露问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，就需要对这些“自动化”的技术实施必要的监控和调节。  垃圾回收的主要对象程">
+<meta name="twitter:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/java%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/1.png">
 
 
 
@@ -329,13 +333,23 @@
                 
               
 
-              <time title="创建时间：2019-06-03 10:00:25 / 修改时间：10:30:05" itemprop="dateCreated datePublished" datetime="2019-06-03T10:00:25+08:00">2019-06-03</time>
+              <time title="创建时间：2019-06-03 10:00:25" itemprop="dateCreated datePublished" datetime="2019-06-03T10:00:25+08:00">2019-06-03</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-14 22:37:24" itemprop="dateModified" datetime="2019-07-14T22:37:24+08:00">2019-07-14</time>
+              </span>
             
           
 
@@ -387,11 +401,55 @@
 
       
         <blockquote>
-<p>Java平台最重要的特点之一就是提供了自动垃圾回收的功能，相比于c/c++手动释放没有用的内存，自动垃圾回收可以使Java代码更加简洁并且可以使编程者更加注重于代码的业务功能。到目前为止，内存的动态分配与自动垃圾回收技术已经相当成熟，但是当需要排查各种内存溢出、内存泄露问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，就需要对这些“自动化”的技术实施必要的监控和调节。</p>
+<p>Java平台最重要的特点之一就是提供了自动垃圾回收的功能，相比于c/c++手动释放没有用的内存，自动垃圾回收可以使Java代码更加简洁并且可以使编程者更加集中精力于代码的业务功能。到目前为止，内存的动态分配与自动垃圾回收技术已经相当成熟，但是当需要排查各种内存溢出、内存泄露问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，就需要对这些“自动化”的技术实施必要的监控和调节。</p>
 </blockquote>
-<h1 id="1-垃圾回收的主要对象"><a href="#1-垃圾回收的主要对象" class="headerlink" title="1.垃圾回收的主要对象"></a>1.垃圾回收的主要对象</h1><p>程序计数器、虚拟机栈、本地方法栈3个区域随线程而生，随线程执行结束而消失，这几个区域的内存分配和回收都具备确定性，不需要过多考虑回收的问题，因为方法结束或者线程结束时，内存自然就跟着回收了。<strong>Java堆</strong>和<strong>方法区</strong>则不一样，一个接口中的多个实现类需要的内存可能不一样，一个方法中的多个分支需要的内存也可能不一样，只有在程序处于运行期间才能知道会创建哪些对象，这部分内存的分配和回收都是动态的，<strong>垃圾收集器所关注的是这部分内容</strong>。</p>
-<h1 id="2-怎样判断一个对象是否可以被回收"><a href="#2-怎样判断一个对象是否可以被回收" class="headerlink" title="2.怎样判断一个对象是否可以被回收"></a>2.怎样判断一个对象是否可以被回收</h1><p>在Java堆里面存放着几乎所有的Java实例，垃圾收集器在对堆收集之前，第一件事情是确定这些对象中哪些还“存活”，哪些对象已“死去”。</p>
-<h3 id="2-1-引用计数算法-Reference-Counting"><a href="#2-1-引用计数算法-Reference-Counting" class="headerlink" title="2.1 引用计数算法(Reference Counting)"></a>2.1 引用计数算法(Reference Counting)</h3><p>给对象添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。<br>引用计数算法实现简单，判定效率很高，但是Java虚拟机里面没有选用引用计数算法来管理内存，其中最主要的原因是它很难解决对象之间循环引用的问题。</p>
+<h1 id="垃圾回收的主要对象"><a href="#垃圾回收的主要对象" class="headerlink" title="垃圾回收的主要对象"></a>垃圾回收的主要对象</h1><p>程序计数器、虚拟机栈、本地方法栈3个区域随线程而生，随线程执行结束而消失，这几个区域的内存分配和回收都具备确定性，不需要过多考虑回收的问题，因为方法结束或者线程结束时，内存自然就跟着回收了。<strong>Java堆</strong>和<strong>方法区</strong>则不一样，一个接口中的多个实现类需要的内存可能不一样，一个方法中的多个分支需要的内存也可能不一样，只有在程序处于运行期间才能知道会创建哪些对象，这部分内存的分配和回收都是动态的，<strong>垃圾收集器所关注的是这部分内容</strong>。</p>
+<h1 id="怎样判断一个对象是否可以被回收"><a href="#怎样判断一个对象是否可以被回收" class="headerlink" title="怎样判断一个对象是否可以被回收"></a>怎样判断一个对象是否可以被回收</h1><p>在Java堆里面存放着几乎所有的Java实例，垃圾收集器在对堆收集之前，第一件事情是确定这些对象中哪些还“存活”，哪些对象已“死去”。</p>
+<h2 id="1-引用计数算法-Reference-Counting"><a href="#1-引用计数算法-Reference-Counting" class="headerlink" title="1.引用计数算法(Reference Counting)"></a>1.引用计数算法(Reference Counting)</h2><p>给对象添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。<br>引用计数算法实现简单，判定效率很高，但是Java虚拟机里面没有选用引用计数算法来管理内存，其中最主要的原因是它很难解决对象之间<strong>循环引用</strong>的问题。</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> Object instance <span class="token operator">=</span> null<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Test a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Test b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        a<span class="token punctuation">.</span>instance <span class="token operator">=</span> b<span class="token punctuation">;</span>
+        b<span class="token punctuation">.</span>instance <span class="token operator">=</span> a<span class="token punctuation">;</span>
+        a <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        b <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>对于上述代码，对象<code>a</code>和<code>b</code>都有字段<code>instance</code>，首先创建两个<code>Test</code>类的对象，为它们的<code>instance</code>赋值，接着使<code>a</code>和<code>b</code>都指向<code>null</code>。此时，创建的两个<code>Test</code>类的对象已经不能被访问到了，但是它们由于互相还有引用，所以引用计数就还不为0，如果采用引用计数算法就无法通知GC回收它们。</p>
+<h2 id="2-可达性分析算法-Reachability-Analysis"><a href="#2-可达性分析算法-Reachability-Analysis" class="headerlink" title="2.可达性分析算法(Reachability Analysis)"></a>2.可达性分析算法(Reachability Analysis)</h2><p>该算法使通过<strong>可达性分析</strong>来判定对象是否存活的。基本思路是通过一系列称为<code>GC Roots</code>的对象为起点，沿着这些对象开始搜索，搜索所走过的路径被称为<code>引用链</code>；当一个对象到<code>GC Roots</code>没有任何引用链相连时，则认为该对象已经不可用，所以会被判定为可回收的对象。<br>在Java语言中，可作为<code>GC Roots</code>的对象包括：</p>
+<ul>
+<li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li>
+<li>本地方法栈中JNI引用的对象</li>
+<li>方法区中静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+</ul>
+<h1 id="引用的分类"><a href="#引用的分类" class="headerlink" title="引用的分类"></a>引用的分类</h1><p>在引用计数算法和可达性分析算法中，判断对象是否需要被回收都与<code>引用</code>有关。在Java中，有4中类型的<code>引用</code>：</p>
+<h2 id="1-强引用-Strong-Reference"><a href="#1-强引用-Strong-Reference" class="headerlink" title="1.强引用(Strong Reference)"></a>1.强引用(Strong Reference)</h2><p>强引用在代码中普遍存在，例如<code>Object o = new Object()</code>，只要强引用还存在，垃圾收集器就不会回收被强引用引用的对象。</p>
+<h2 id="2-软引用-Soft-Reference"><a href="#2-软引用-Soft-Reference" class="headerlink" title="2.软引用(Soft Reference)"></a>2.软引用(Soft Reference)</h2><p>软引用引用的是还有用但不是必须的对象，在系统将要发生内存溢出异常之前，会把这些引用对象列入回收的范围中进行回收。可以用<code>SoftReference</code>类实现软引用：</p>
+<pre class=" language-java"><code class="language-java">    Object obj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    SoftReference<span class="token operator">&lt;</span>Object<span class="token operator">></span> sf <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SoftReference</span><span class="token operator">&lt;</span>Object<span class="token operator">></span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    obj <span class="token operator">=</span> null<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 使对象只被软引用关联</span>
+</code></pre>
+<h2 id="3-弱引用-Weak-Reference"><a href="#3-弱引用-Weak-Reference" class="headerlink" title="3.弱引用(Weak Reference)"></a>3.弱引用(Weak Reference)</h2><p>弱引用引用的对象也不是必须的，与软引用的区别是被弱引用关联的对象只能生存到下一次垃圾收集发生之前，而无论内存是否足够。实现弱引用需要<code>WeakReference</code>类。</p>
+<h2 id="4-虚引用"><a href="#4-虚引用" class="headerlink" title="4.虚引用"></a>4.虚引用</h2><p>无法通过虚引用获得该对象，为一个对象设置虚引用的唯一目的是能在这个对象被回收时收到一个系统通知。使用<code>PhantomReference</code>类创建虚引用。</p>
+<h1 id="finalize-方法"><a href="#finalize-方法" class="headerlink" title="finalize()方法"></a>finalize()方法</h1><p><code>finalize()</code>方法声明在<code>Object</code>类中，被限定为<code>protected</code>，方法体是空的，所以可以被继承<code>Object</code>的类重写。<br>虽然经过可达性分析算法之后有些对象已经被标记为可回收，但是如果该对象对应的类重写了<code>finalize()</code>方法并且该方法还没有被执行过，那么该方法会被一个叫做<code>Finalizer</code>的线程去执行。在<code>finalize()</code>方法中对象可以将自己赋值给一个变量，从而逃脱被回收的命运。</p>
+<h1 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h1><h2 id="1-标记-清除"><a href="#1-标记-清除" class="headerlink" title="1.标记-清除"></a>1.标记-清除</h2><p>标记-清除算法分为两个阶段：先标记出所有需要回收的对象，在标记完之后统一回收所有被标记的对象。</p>
+<p><div align="center/"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/java%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/1.png" alt="" title="标记-清除"><br>在标记阶段，程序会检查每个对象是否为活动对象，如果是活动对象，则程序会在对象头部打上标记。<br>在清除阶段，会进行对象回收并取消标志位，另外，还会判断回收后的分块与前一个空闲分块是否连续，若连续，会合并这两个分块。回收对象就是把对象作为分块，连接到被称为 “空闲链表” 的单向链表，之后进行分配时只需要遍历这个空闲链表，就可以找到分块。<br>在分配时，程序会搜索空闲链表寻找空间大于等于新对象大小 size 的块 block。如果它找到的块等于 size，会直接返回这个分块；如果找到的块大于 size，会将块分割成大小为 size 与 (block - size) 的两部分，返回大小为 size 的分块，并把大小为 (block - size) 的块返回给空闲链表<br>不足：</div></p>
+<ul>
+<li>标记和清除过程的效率都不高；</li>
+<li>会产生大量不连续的内存碎片，分配大对象时，会因为无法找到足够的内存空间而不得不提前出发一次垃圾收集。</li>
+</ul>
+<h2 id="2-复制"><a href="#2-复制" class="headerlink" title="2.复制"></a>2.复制</h2><p>复制算法将可用的内存分为大小相等的两大块，每次只使用其中的一块。当这一块内存用完的时候，就将还存活的对象复制到另一块上，然后把之前使用的内存空间全部清理掉。</p>
+<p><div align="center/"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/java%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/2.png" alt="" title="复制"><br>从图中可以看出，该方法在垃圾收集的时候<code>不会产生内存碎片</code>，而且清理时也只用移动堆顶指针，所以效率很高。但是缺点是<code>将可用内存缩小至原本可用内存的一半</code>。<br>现代的商业虚拟机都采用这种垃圾收集算法回收<code>新生代</code>，但是并不是按照1:1的比例来划分新生代空间的，而是将新生代内存分为一块较大的<code>Eden</code>空间和两块较小的<code>Survivor</code>空间，每次使用Eden和其中一块<code>Survivor</code>。当垃圾回收时，将Eden和一块survivor中的存活的对象复制到另一块Survivor中，清理掉刚刚使用的Survivor和Eden。因为新生代中的对象几乎98%都是“朝生夕死”的，所以Eden和一个Survivor的比例设置为<code>8:1</code>，这样只会有10%的内存会被浪费。当然，如果某次垃圾收集时，如果存活的对象多余一个Servivor空间，就会进行<code>分配担保</code>：存活的对象直接进入<code>老年代</code>。</div></p>
+<h2 id="3-标记-整理"><a href="#3-标记-整理" class="headerlink" title="3.标记-整理"></a>3.标记-整理</h2><p>老年代中的对象存活时间久，如果使用复制算法，那么每次都会复制较多的对象，所以针对老年代，有人提出<code>标记-整理</code>算法。其中标记过程与标记-清除算法一样，而清理对象时，让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
+<p><div align="center/"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/java%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/3.png" alt="" title="标记-整理"><br>优点是不会产生内存碎片，缺点是需要移动大对象，效率比较低。</div></p>
+<h2 id="4-分代收集"><a href="#4-分代收集" class="headerlink" title="4.分代收集"></a>4.分代收集</h2><p>现在的商业虚拟机常采用分代收集算法，就是根据对象存活周期将内存划分为几块，对于不同的块采用不同的收集算法。<br>一般是将<code>堆</code>分为新生代和老年代，新生代使用复制算法，老年代使用标记-清除或标记-整理算法。</p>
 
       
     </div>
@@ -514,7 +572,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -545,7 +603,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -584,7 +644,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -622,7 +686,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-垃圾回收的主要对象"><span class="nav-number">1.</span> <span class="nav-text">1.垃圾回收的主要对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-怎样判断一个对象是否可以被回收"><span class="nav-number">2.</span> <span class="nav-text">2.怎样判断一个对象是否可以被回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-引用计数算法-Reference-Counting"><span class="nav-number">2.0.1.</span> <span class="nav-text">2.1 引用计数算法(Reference Counting)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#垃圾回收的主要对象"><span class="nav-number">1.</span> <span class="nav-text">垃圾回收的主要对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#怎样判断一个对象是否可以被回收"><span class="nav-number">2.</span> <span class="nav-text">怎样判断一个对象是否可以被回收</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-引用计数算法-Reference-Counting"><span class="nav-number">2.1.</span> <span class="nav-text">1.引用计数算法(Reference Counting)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-可达性分析算法-Reachability-Analysis"><span class="nav-number">2.2.</span> <span class="nav-text">2.可达性分析算法(Reachability Analysis)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引用的分类"><span class="nav-number">3.</span> <span class="nav-text">引用的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-强引用-Strong-Reference"><span class="nav-number">3.1.</span> <span class="nav-text">1.强引用(Strong Reference)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-软引用-Soft-Reference"><span class="nav-number">3.2.</span> <span class="nav-text">2.软引用(Soft Reference)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-弱引用-Weak-Reference"><span class="nav-number">3.3.</span> <span class="nav-text">3.弱引用(Weak Reference)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-虚引用"><span class="nav-number">3.4.</span> <span class="nav-text">4.虚引用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#finalize-方法"><span class="nav-number">4.</span> <span class="nav-text">finalize()方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#垃圾收集算法"><span class="nav-number">5.</span> <span class="nav-text">垃圾收集算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-标记-清除"><span class="nav-number">5.1.</span> <span class="nav-text">1.标记-清除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-复制"><span class="nav-number">5.2.</span> <span class="nav-text">2.复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-标记-整理"><span class="nav-number">5.3.</span> <span class="nav-text">3.标记-整理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-分代收集"><span class="nav-number">5.4.</span> <span class="nav-text">4.分代收集</span></a></li></ol></li></ol></div>
             
 
           </div>

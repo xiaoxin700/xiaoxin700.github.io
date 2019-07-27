@@ -105,7 +105,7 @@
 <meta property="og:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84HTTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1.PNG">
 <meta property="og:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84HTTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2.PNG">
 <meta property="og:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84HTTP%E6%9C%8D%E5%8A%A1%E5%99%A8/3.PNG">
-<meta property="og:updated_time" content="2019-06-25T03:33:29.226Z">
+<meta property="og:updated_time" content="2019-07-14T14:40:47.547Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个简单的Http服务器">
 <meta name="twitter:description" content="HTTP协议广泛应用于互联网，与我们的日常生活息息相关。通过实现一个简单的HTTP服务器，可以对其有更加深刻的认识。  1.HTTP服务器总览HTTP服务器实现了HTTP和相关的TCP连接处理，负责管理Web服务器提供的资源。HTTP服务器逻辑和操作系统共同负责管理TCP连接。操作系统管理底层计算机系统的硬件细节，并提供了TCP/IP网络支持、负责装载Web资源的文件系统以及控制当前计算活动的进">
@@ -333,13 +333,23 @@
                 
               
 
-              <time title="创建时间：2019-06-25 09:38:05 / 修改时间：11:33:29" itemprop="dateCreated datePublished" datetime="2019-06-25T09:38:05+08:00">2019-06-25</time>
+              <time title="创建时间：2019-06-25 09:38:05" itemprop="dateCreated datePublished" datetime="2019-06-25T09:38:05+08:00">2019-06-25</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-14 22:40:47" itemprop="dateModified" datetime="2019-07-14T22:40:47+08:00">2019-07-14</time>
+              </span>
             
           
 
@@ -403,14 +413,14 @@
 <li><code>发送响应</code>——将响应回送给客户端</li>
 <li><code>记录事务处理过程</code>——将与已完成事务有关的内容记录在日志文件中。<br><div align="center/"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84HTTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1.PNG" alt="" title="基本HTTP服务器请求的步骤"></div></li>
 </ul>
-<h1 id="2-HTTP请求响应处理流程及实现"><a href="#2-HTTP请求响应处理流程及实现" class="headerlink" title="2.HTTP请求响应处理流程及实现"></a>2.HTTP请求响应处理流程及实现</h1><h3 id="2-1-接受客户端连接"><a href="#2-1-接受客户端连接" class="headerlink" title="2.1 接受客户端连接"></a>2.1 接受客户端连接</h3><p>客户端的HTTP请求报文是通过与服务器之间的TCP连接传输的，所以要先建立一条客户端和服务器之间的TCP连接。首先服务器端要通过<code>ServerSocket</code>在指定端口进行监听，服务器端阻塞在accept()处直至有客户端与其相连：</p>
+<h1 id="2-HTTP请求响应处理流程及实现"><a href="#2-HTTP请求响应处理流程及实现" class="headerlink" title="2.HTTP请求响应处理流程及实现"></a>2.HTTP请求响应处理流程及实现</h1><h2 id="2-1-接受客户端连接"><a href="#2-1-接受客户端连接" class="headerlink" title="2.1 接受客户端连接"></a>2.1 接受客户端连接</h2><p>客户端的HTTP请求报文是通过与服务器之间的TCP连接传输的，所以要先建立一条客户端和服务器之间的TCP连接。首先服务器端要通过<code>ServerSocket</code>在指定端口进行监听，服务器端阻塞在accept()处直至有客户端与其相连：</p>
 <pre class=" language-java"><code class="language-java">    <span class="token keyword">int</span> port <span class="token operator">=</span> <span class="token number">8080</span><span class="token punctuation">;</span>
     ServerSocket serverSocket <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ServerSocket</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
         Socket socket <span class="token operator">=</span> serverSocket<span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 </code></pre>
-<h3 id="2-2-接收请求报文"><a href="#2-2-接收请求报文" class="headerlink" title="2.2 接收请求报文"></a>2.2 接收请求报文</h3><p>服务器和客户端之间的连接上有数据到达服务器时，HTTP服务器会从连接中读取数据，并将请求报文中的内容解析出来。解析请求报文时，HTTP服务器会：</p>
+<h2 id="2-2-接收请求报文"><a href="#2-2-接收请求报文" class="headerlink" title="2.2 接收请求报文"></a>2.2 接收请求报文</h2><p>服务器和客户端之间的连接上有数据到达服务器时，HTTP服务器会从连接中读取数据，并将请求报文中的内容解析出来。解析请求报文时，HTTP服务器会：</p>
 <ul>
 <li>解析请求行，查找请求方法、指定的资源标识符（URI）以及HTTP协议版本号，各项间由一个空格分隔，并以一个回车换行（CRLF）序列作为行的结束；</li>
 <li>读取以CRLF结尾的报文首部；</li>
@@ -431,11 +441,11 @@
     <span class="token comment" spellcheck="true">//获取HTTP请求中的URI</span>
     String uri<span class="token operator">=</span>parts<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 </code></pre>
-<h3 id="2-3-处理请求"><a href="#2-3-处理请求" class="headerlink" title="2.3 处理请求"></a>2.3 处理请求</h3><p>一旦HTTP服务器接收到了请求，就可以根据方法、资源、首部和可选的主体部分来对请求进行处理。有些方法（比如POST）要求请求报文中必须带有请求体；而有些方法比如（GET）禁止在请求报文中包含请求体</p>
-<h3 id="2-4-对资源的映射及访问"><a href="#2-4-对资源的映射及访问" class="headerlink" title="2.4 对资源的映射及访问"></a>2.4 对资源的映射及访问</h3><p>HTTP服务器是资源服务器，它们负责发送预先创建好的内容（比如HTML页面或JPEG图片）以及运行在服务器上的资源生成程序所产生的动态内容。</p>
+<h2 id="2-3-处理请求"><a href="#2-3-处理请求" class="headerlink" title="2.3 处理请求"></a>2.3 处理请求</h2><p>一旦HTTP服务器接收到了请求，就可以根据方法、资源、首部和可选的主体部分来对请求进行处理。有些方法（比如POST）要求请求报文中必须带有请求体；而有些方法比如（GET）禁止在请求报文中包含请求体</p>
+<h2 id="2-4-对资源的映射及访问"><a href="#2-4-对资源的映射及访问" class="headerlink" title="2.4 对资源的映射及访问"></a>2.4 对资源的映射及访问</h2><p>HTTP服务器是资源服务器，它们负责发送预先创建好的内容（比如HTML页面或JPEG图片）以及运行在服务器上的资源生成程序所产生的动态内容。</p>
 <pre class=" language-java"><code class="language-java">    InputStream in<span class="token operator">=</span>HTTPServer<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getResourceAsStream</span><span class="token punctuation">(</span><span class="token string">"/server"</span><span class="token operator">+</span>uri<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<h3 id="2-5-构建响应"><a href="#2-5-构建响应" class="headerlink" title="2.5 构建响应"></a>2.5 构建响应</h3><p>当HTTP服务器识别出了资源，就执行请求方法中描述的动作，并返回响应报文。响应报文中包含有相应状态码、响应首部，如果有响应体的话，还包括响应体。</p>
+<h2 id="2-5-构建响应"><a href="#2-5-构建响应" class="headerlink" title="2.5 构建响应"></a>2.5 构建响应</h2><p>当HTTP服务器识别出了资源，就执行请求方法中描述的动作，并返回响应报文。响应报文中包含有相应状态码、响应首部，如果有响应体的话，还包括响应体。</p>
 <pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">/*决定HTTP响应正文的类型*/</span>
     String contentType<span class="token punctuation">;</span>
     <span class="token keyword">if</span><span class="token punctuation">(</span>uri<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">"html"</span><span class="token punctuation">)</span><span class="token operator">!=</span><span class="token operator">-</span><span class="token number">1</span><span class="token operator">||</span>uri<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">"htm"</span><span class="token punctuation">)</span><span class="token operator">!=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
@@ -453,7 +463,7 @@
 
     String responseHeader<span class="token operator">=</span><span class="token string">"Content-type:"</span><span class="token operator">+</span>contentType<span class="token operator">+</span><span class="token string">"\r\n\r\n"</span><span class="token punctuation">;</span>
 </code></pre>
-<h3 id="2-6-发送响应"><a href="#2-6-发送响应" class="headerlink" title="2.6 发送响应"></a>2.6 发送响应</h3><p>HTTP服务器要记录连接的状态，还要注意对持久连接的处理。对于非持久连接而言，服务器应该在发送了整条报文之后，关闭自己这一端的连接。</p>
+<h2 id="2-6-发送响应"><a href="#2-6-发送响应" class="headerlink" title="2.6 发送响应"></a>2.6 发送响应</h2><p>HTTP服务器要记录连接的状态，还要注意对持久连接的处理。对于非持久连接而言，服务器应该在发送了整条报文之后，关闭自己这一端的连接。</p>
 <pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">//发送HTTP响应结果</span>
     OutputStream socketOut<span class="token operator">=</span>socket<span class="token punctuation">.</span><span class="token function">getOutputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -468,7 +478,7 @@
 
     socket<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<h3 id="2-7-记录日志"><a href="#2-7-记录日志" class="headerlink" title="2.7 记录日志"></a>2.7 记录日志</h3><p>最后，当事务结束时，HTTP服务器会在日志文件中添加一个条目，来描述已经执行的事务。</p>
+<h2 id="2-7-记录日志"><a href="#2-7-记录日志" class="headerlink" title="2.7 记录日志"></a>2.7 记录日志</h2><p>最后，当事务结束时，HTTP服务器会在日志文件中添加一个条目，来描述已经执行的事务。</p>
 <h1 id="3-简单的HTTP服务器"><a href="#3-简单的HTTP服务器" class="headerlink" title="3.简单的HTTP服务器"></a>3.简单的HTTP服务器</h1><p>将以上步骤综合在一起，就可以实现一个简单的HTTP服务器逻辑。这里以请求一个简单的HTML页面<code>abc.html</code>为例。<br>在eclipse中创建一个java项目，代码以及html资源结构如下:</p>
 <p><div align="center/"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84HTTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2.PNG" alt="" title="代码结构">    </div></p>
 <p>代码如下：</p>
@@ -685,7 +695,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -716,7 +726,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -755,7 +767,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -793,7 +809,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-HTTP服务器总览"><span class="nav-number">1.</span> <span class="nav-text">1.HTTP服务器总览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-HTTP请求响应处理流程及实现"><span class="nav-number">2.</span> <span class="nav-text">2.HTTP请求响应处理流程及实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-接受客户端连接"><span class="nav-number">2.0.1.</span> <span class="nav-text">2.1 接受客户端连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-接收请求报文"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.2 接收请求报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-处理请求"><span class="nav-number">2.0.3.</span> <span class="nav-text">2.3 处理请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-对资源的映射及访问"><span class="nav-number">2.0.4.</span> <span class="nav-text">2.4 对资源的映射及访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-构建响应"><span class="nav-number">2.0.5.</span> <span class="nav-text">2.5 构建响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-发送响应"><span class="nav-number">2.0.6.</span> <span class="nav-text">2.6 发送响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-记录日志"><span class="nav-number">2.0.7.</span> <span class="nav-text">2.7 记录日志</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#3-简单的HTTP服务器"><span class="nav-number">3.</span> <span class="nav-text">3.简单的HTTP服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4.总结</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-HTTP服务器总览"><span class="nav-number">1.</span> <span class="nav-text">1.HTTP服务器总览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-HTTP请求响应处理流程及实现"><span class="nav-number">2.</span> <span class="nav-text">2.HTTP请求响应处理流程及实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-接受客户端连接"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 接受客户端连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-接收请求报文"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 接收请求报文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-处理请求"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 处理请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-对资源的映射及访问"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 对资源的映射及访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-构建响应"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 构建响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-发送响应"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 发送响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-记录日志"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 记录日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-简单的HTTP服务器"><span class="nav-number">3.</span> <span class="nav-text">3.简单的HTTP服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4.总结</span></a></li></ol></div>
             
 
           </div>
