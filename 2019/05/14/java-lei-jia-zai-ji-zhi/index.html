@@ -103,7 +103,7 @@
 <meta property="og:description" content="我们编写的Java代码（.java文件）经过编译之后，生成.class文件，.class文件中描述了这个类的各种信息。而这些信息最终都需要加载到虚拟机中之后才能运行和使用。虚拟机把描述类的数据从.class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的类加载机制。  1、类的生命周期类从被加载到虚拟机内存中开始，到卸载出内存为止，整">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/%E7%BB%98%E5%9B%BE1.jpg">
-<meta property="og:updated_time" content="2019-05-24T01:57:19.702Z">
+<meta property="og:updated_time" content="2019-08-12T12:12:23.234Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java类加载机制">
 <meta name="twitter:description" content="我们编写的Java代码（.java文件）经过编译之后，生成.class文件，.class文件中描述了这个类的各种信息。而这些信息最终都需要加载到虚拟机中之后才能运行和使用。虚拟机把描述类的数据从.class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的类加载机制。  1、类的生命周期类从被加载到虚拟机内存中开始，到卸载出内存为止，整">
@@ -346,7 +346,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-24 09:57:19" itemprop="dateModified" datetime="2019-05-24T09:57:19+08:00">2019-05-24</time>
+                <time title="修改时间：2019-08-12 20:12:23" itemprop="dateModified" datetime="2019-08-12T20:12:23+08:00">2019-08-12</time>
               </span>
             
           
@@ -416,11 +416,27 @@
 <li>运行时生成，比如动态代理技术，在java.lang.reflect.Proxy使用ProxyGenerator.generateProxyClass的代理类的二进制字节流</li>
 <li>由其它文件生成，例如由JSP文件生成对应的Class类</li>
 </ul>
+<p>什么情况下需要开始类加载过程的第一个过程：<code>加载</code>？Java虚拟机规范中没有强制约束；但是虚拟机严格规定了<code>初始化</code>的必须完成的阶段，而在初始化完成之前，加载一定已经完成了。</p>
 <h3 id="2-2-验证"><a href="#2-2-验证" class="headerlink" title="2.2 验证"></a>2.2 验证</h3><p>确保.class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。</p>
 <h3 id="2-3-准备"><a href="#2-3-准备" class="headerlink" title="2.3 准备"></a>2.3 准备</h3><p><strong>为类变量(被static修饰的变量)分配内存</strong>并<strong>设置类变量初始值</strong>的阶段，这些类变量所使用的内存都将在<strong>方法区</strong>中进行分配。</p>
 <p>(1)这个阶段进行<strong>内存分配的只包括类变量</strong>，不包括实例变量，实例变量是在类实例化时随着对象一起分配在Java堆中；<br>(2)类变量在这个阶段一般被初始化为0值，比如类变量value被初始化为0而不是321<br>&ensp;<code>public statuc int value = 321;</code><br>如果类变量是常量，那么它将被初始化为表达式所声明的值，比如下面的常量value被初始化为321<br>&ensp;<code>public static final int value = 321;</code></p>
 <h3 id="2-4-解析"><a href="#2-4-解析" class="headerlink" title="2.4 解析"></a>2.4 解析</h3><p>将.class文件中的常量池中的符号引用替换为直接引用。</p>
-<h3 id="2-5-初始化"><a href="#2-5-初始化" class="headerlink" title="2.5 初始化"></a>2.5 初始化</h3><p>初始化是类加载过程的最后一步，前面的几步，除了在加载阶段用户可以编写程序参与之外，其余都是由虚拟机主导完成的。<br>在初始化阶段，才真正开始执行该类中编写的Java代码。在这个阶段中，执行类构造器的<strong>&lt;clinit&gt;()方法</strong>，这个方法是由编译器自动收集类中的所有类变量的赋值语句和静态初始化块中的语句合并产生的。编译器收集的顺序是由语句在源文件中出现的顺序决定的。<br>静态语句块只能访问到定义在它之前的类变量，定义在它之后的类变量只能赋值，不能访问。比如下面代码：    </p>
+<h3 id="2-5-初始化"><a href="#2-5-初始化" class="headerlink" title="2.5 初始化"></a>2.5 初始化</h3><p>初始化是类加载过程的最后一步，前面的几步，除了在加载阶段用户可以编写程序参与之外，其余都是由虚拟机主导完成的。<br>在初始化阶段，才真正开始执行该类中编写的Java代码。在这个阶段中，执行类构造器的<strong>&lt;clinit&gt;()方法</strong>，这个方法是由编译器自动收集类中的所有类变量的赋值语句和静态初始化块中的语句合并产生的。编译器收集的顺序是由语句在源文件中出现的顺序决定的。<br>虚拟机规范严格规定了有且仅有5种情况必须立即对类进行<code>初始化</code>：</p>
+<ul>
+<li>遇到<code>new</code>、<code>getstatic</code>、<code>putstatic</code>或<code>invokestatic</code>这4条字节码指令时，如果类还没有初始化，则需要先初始化对应类。生成这4条指令最常见的Java代码场景是：<code>使用new关键字实例化对象的时候</code>、<code>读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）</code>、<code>调用一个类的静态方法</code>；</li>
+<li>使用<code>java.lang.reflect</code>包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化；</li>
+<li>当初始化一个类的时候，如果它的<code>父类</code>还没有进行过初始化，则需要先出发其父类的初始化；</li>
+<li>当虚拟机启动时，用户需要制定一个要执行的<code>主类</code>，虚拟机会先初始化这个主类；</li>
+<li>当使用JDK1.7的动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</li>
+</ul>
+<p>这5中场景中的行为称为对一个类进行<code>主动引用</code>;其余的对类进行引用的方式都不会触发初始化，比如：</p>
+<ul>
+<li>通过子类引用父类的静态字段，不会导致子类的初始化</li>
+<li>通过数组定义来引用类（类作为数组型变量类型），不会初始化该类</li>
+<li>引用类中在编译阶段存入常量池中的静态常量，不会初始化该类</li>
+</ul>
+<p>这几种情况称为<code>被动引用</code>。</p>
+<p>静态语句块只能访问到定义在它之前的类变量，定义在它之后的类变量只能赋值，不能访问。比如下面代码：    </p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span><span class="token punctuation">{</span>
     <span class="token keyword">static</span><span class="token punctuation">{</span>
         i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>                    <span class="token comment" spellcheck="true">//给变量i赋值可以正常编译通过</span>
