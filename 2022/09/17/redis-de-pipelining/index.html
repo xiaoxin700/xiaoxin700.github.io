@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1.Redis中的pipelining是什么Redis pipelining是一项以提高性能为目的，一次发出多个命令、不用等待其中每个单独命令返回的技术 2.pipeling为什么能提高性能2.1 Redis工作模型以及RTTRedis是一个TCP服务器，它的工作模型是客户端-服务端，所以完成一个Redis客户端请求需要两个步骤：  客户端向服务器发出一个查询请求，然后等待服务器的响应，等待经常是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis的pipelining">
+<meta property="og:url" content="http://xiaoxin700.github.io/2022/09/17/redis-de-pipelining/index.html">
+<meta property="og:site_name" content="xx700">
+<meta property="og:description" content="1.Redis中的pipelining是什么Redis pipelining是一项以提高性能为目的，一次发出多个命令、不用等待其中每个单独命令返回的技术 2.pipeling为什么能提高性能2.1 Redis工作模型以及RTTRedis是一个TCP服务器，它的工作模型是客户端-服务端，所以完成一个Redis客户端请求需要两个步骤：  客户端向服务器发出一个查询请求，然后等待服务器的响应，等待经常是">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/redis%E7%9A%84pipelining/pipeline_iops.png">
+<meta property="og:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/redis%E7%9A%84pipelining/%E6%88%AA%E5%B1%8F2022-09-17%2021.22.22.png">
+<meta property="og:updated_time" content="2022-09-17T13:29:10.192Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis的pipelining">
+<meta name="twitter:description" content="1.Redis中的pipelining是什么Redis pipelining是一项以提高性能为目的，一次发出多个命令、不用等待其中每个单独命令返回的技术 2.pipeling为什么能提高性能2.1 Redis工作模型以及RTTRedis是一个TCP服务器，它的工作模型是客户端-服务端，所以完成一个Redis客户端请求需要两个步骤：  客户端向服务器发出一个查询请求，然后等待服务器的响应，等待经常是">
+<meta name="twitter:image" content="https://test-1258680748.cos.ap-shanghai.myqcloud.com/redis%E7%9A%84pipelining/pipeline_iops.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://xiaoxin700.github.io/2022/09/17/redis-de-pipelining/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Redis的pipelining | xx700</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-duotone-light.css" type="text/css"></head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xx700</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxin700.github.io/2022/09/17/redis-de-pipelining/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xx700">
+      <meta itemprop="description" content="记录点滴">
+      <meta itemprop="image" content="/images/dog.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xx700">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Redis的pipelining
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2022-09-17 17:06:43 / 修改时间：21:29:10" itemprop="dateCreated datePublished" datetime="2022-09-17T17:06:43+08:00">2022-09-17</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-Redis中的pipelining是什么"><a href="#1-Redis中的pipelining是什么" class="headerlink" title="1.Redis中的pipelining是什么"></a>1.Redis中的pipelining是什么</h1><p>Redis pipelining是一项以提高性能为目的，一次发出多个命令、不用等待其中每个单独命令返回的技术</p>
+<h1 id="2-pipeling为什么能提高性能"><a href="#2-pipeling为什么能提高性能" class="headerlink" title="2.pipeling为什么能提高性能"></a>2.pipeling为什么能提高性能</h1><h2 id="2-1-Redis工作模型以及RTT"><a href="#2-1-Redis工作模型以及RTT" class="headerlink" title="2.1 Redis工作模型以及RTT"></a>2.1 Redis工作模型以及RTT</h2><p>Redis是一个TCP服务器，它的工作模型是客户端-服务端，所以完成一个Redis客户端请求需要两个步骤：</p>
+<ul>
+<li>客户端向服务器发出一个查询请求，然后等待服务器的响应，等待经常是阻塞式的</li>
+<li>服务器处理请求并且发送响应给客户端<br>因此，在客户端与服务器之间的网络上传输客户端与服务器之间通信的数据包会花费一定的时间，这个时间被称为<strong>RTT(Round Trip Time)</strong>。当向同一个列表里添加多个元素或者迁移一个有很多key的数据库时候，客户端需要连续发出很多请求，这时很明显RTT是很耗时的。假如RTT是250ms，即使服务器每秒能够处理10万次请求，客户端每秒也只能够完成4次请求。</li>
+</ul>
+<h2 id="2-2-解决办法"><a href="#2-2-解决办法" class="headerlink" title="2.2 解决办法"></a>2.2 解决办法</h2><p>客户端不是等到一个单独的查询从服务端返回才发出下一次请求，而是一次发送多个命令到服务器，然后一次读取这些命令的返回，这样就不用每个命令都需要花费RTT了。这就是pipelining的原理。<br>当客户端使用pipelining发送命令时，服务端会使用内存将返回入队。所以如果用pipeling发送多个命令时，最好将这些命令分批发送，每批中的命令数要合理，比如1万。</p>
+<h1 id="3-不仅仅是RTT"><a href="#3-不仅仅是RTT" class="headerlink" title="3.不仅仅是RTT"></a>3.不仅仅是RTT</h1><p>pipelining不只是减少了RTT延迟，实际上它也显著提升了Redis服务器每秒可以处理的请求数。这是因为如果没有使用pipelining，那么服务端处理每个命令都会涉及<code>socket I/O</code>，这需要使用<code>read()</code>、<code>write()</code>系统调用，从而程序从用户态进入内核态，上下文切换会显著影响性能。当使用pipelining时，服务器处理pipelining中的命令时只会涉及一次<code>read()</code>、<code>write()</code>系统调用。</p>
+<p><div align="center/"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/redis%E7%9A%84pipelining/pipeline_iops.png" alt="" title="文档里的测试结果"><br>从结果图里可以看到，与不使用pipelining每秒能处理1e+05次查询相比，当用pipelining一次处理多条查询时，性能会有约10倍的提升。</div></p>
+<h1 id="4-实验"><a href="#4-实验" class="headerlink" title="4.实验"></a>4.实验</h1><p>下面模拟下参考文档里的code example，使用go语言的Redis客户端<a href="https://github.com/go-redis/redis" target="_blank" rel="noopener">go-redis</a>连接本机Redis，对比单独执行1万次ping命令与使用pipelining一次执行1万次ping命令的耗时，查看pipelining的效果。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"context"</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"github.com/go-redis/redis/v8"</span>
+    <span class="token string">"time"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    rdb <span class="token operator">:=</span> redis<span class="token punctuation">.</span><span class="token function">NewClient</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>redis<span class="token punctuation">.</span>Options<span class="token punctuation">{</span>
+        Addr<span class="token punctuation">:</span> <span class="token string">"localhost:6379"</span><span class="token punctuation">,</span>
+        Password<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+        DB<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token function">timeCost</span><span class="token punctuation">(</span><span class="token string">"individualCmd"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ctx <span class="token operator">:=</span> context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> 10_000<span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
+            rdb<span class="token punctuation">.</span><span class="token function">Ping</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token function">timeCost</span><span class="token punctuation">(</span><span class="token string">"withPipelining"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ctx <span class="token operator">:=</span> context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        pipe <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> 10_000<span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
+            pipe<span class="token punctuation">.</span><span class="token function">Ping</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token boolean">_</span><span class="token punctuation">,</span> err <span class="token operator">:=</span> pipe<span class="token punctuation">.</span><span class="token function">Exec</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">timeCost</span><span class="token punctuation">(</span>funcName <span class="token builtin">string</span><span class="token punctuation">,</span> f <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    start <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    elapsed <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Since</span><span class="token punctuation">(</span>start<span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>funcName<span class="token punctuation">,</span> elapsed<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><div align="center/"><img src="https://test-1258680748.cos.ap-shanghai.myqcloud.com/redis%E7%9A%84pipelining/%E6%88%AA%E5%B1%8F2022-09-17%2021.22.22.png" alt=""></div></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://redis.io/docs/manual/pipelining/" target="_blank" rel="noopener">https://redis.io/docs/manual/pipelining/</a><br><a href="https://redis.uptrace.dev/guide/go-redis-pipelines.html" target="_blank" rel="noopener">https://redis.uptrace.dev/guide/go-redis-pipelines.html</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/07/11/a/" rel="next" title="a">
+                <i class="fa fa-chevron-left"></i> a
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/dog.jpg" alt="xx700">
+            
+              <p class="site-author-name" itemprop="name">xx700</p>
+              <div class="site-description motion-element" itemprop="description">记录点滴</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Redis中的pipelining是什么"><span class="nav-number">1.</span> <span class="nav-text">1.Redis中的pipelining是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-pipeling为什么能提高性能"><span class="nav-number">2.</span> <span class="nav-text">2.pipeling为什么能提高性能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Redis工作模型以及RTT"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Redis工作模型以及RTT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-解决办法"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 解决办法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-不仅仅是RTT"><span class="nav-number">3.</span> <span class="nav-text">3.不仅仅是RTT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-实验"><span class="nav-number">4.</span> <span class="nav-text">4.实验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xx700</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.2.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
